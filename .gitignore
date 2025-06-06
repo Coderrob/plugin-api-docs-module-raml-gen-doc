@@ -134,3 +134,12 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Mac junk
+.DS_Store
+
+# BS config
+*.local.yaml
+
+# TS compiled types
+dist-types
