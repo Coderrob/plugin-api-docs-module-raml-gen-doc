@@ -143,3 +143,6 @@ dist
 
 # TS compiled types
 dist-types
+
+# Continue
+.continue

@@ -24,7 +24,8 @@
     "msw": "1.3.5",
     "react": "^18",
     "react-dom": "^18",
-    "react-router-dom": "^6"
+    "react-router-dom": "^6",
+    "ts-jest": "^29.3.4"
   },
   "exports": {
     ".": "./src/index.ts",
