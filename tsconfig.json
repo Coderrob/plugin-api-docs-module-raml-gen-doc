@@ -1,13 +1,17 @@
 {
   "compilerOptions": {
+    "baseUrl": "./",
+    "esModuleInterop": true,
     "jsx": "react-jsx",
-    "lib": ["DOM", "DOM.Iterable", "ScriptHost", "ES2022"],
-    "outDir": "dist-types",
+    "module": "commonjs",
+    "outDir": "./dist",
     "rootDir": ".",
-    "target": "ES2022",
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "es6",
     "useUnknownInCatchVariables": false
   },
   "exclude": ["node_modules", "dist-types", "dist"],
   "extends": "@backstage/cli/config/tsconfig.json",
-  "include": ["src/"]
+  "include": ["src"]
 }

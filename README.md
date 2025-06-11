@@ -9,57 +9,57 @@ With this integration, Backstage users can seamlessly view and manage their APIs
 ## Features
 
 - **Converts RAML to OpenAPI**: Automatically translates RAML API definitions into OpenAPI v2.0 specifications.
-- **Enhanced Documentation**: Leverages Backstage's Api-Docs capabilities for a consistent user experience.
 - **Easy Integration**: Designed to work seamlessly with existing Backstage setups and plugins.
 
 ## Prerequisites
 
-- Basic knowledge of Backstage setup.
+- Basic knowledge of Backstage.io setup.
 - Node.js installed on your development machine (preferably the latest LTS version).
 - Existing or planned RAML API definitions in your project.
 
 ## Installation
 
-1. **Clone or Download this Repository**
+1. **Create a new Backstage application**
 
    ```bash
-   git clone https://github.com/Coderrob/plugin-api-docs-module-raml-gen-doc.git
-   cd plugin-api-docs-module-raml-gen-doc
+   npx @backstage/create-app@latest
    ```
 
 2. **Install Dependencies**
 
-   Ensure that you have Backstage installed and configured. If not, follow the [official Backstage documentation](https://backstage.io/docs/getting-started/) to set up a new instance.
-
-3. **Build the Plugin**
-
-   ```bash
-   yarn build
-   ```
-
-4. **Link the Plugin to your Backstage App**
-
-   Navigate to your Backstage app directory and link the plugin:
+   Navigate to your Backstage app directory and add this RAML to OpenApi plugin:
 
    ```bash
    cd path/to/your-backstage-app
    yarn --cwd packages/app add @coderrob/plugin-api-docs-module-raml-gen-doc
    ```
 
-5. **Register the Plugin in Your App's `packages/app/src/plugins.ts`**
+3. **Register the widget in Your App's `packages/app/src/apis.ts`**
 
    Add the following import statement to register the plugin with Backstage:
 
    ```typescript
-   export const ramlOpenApiPlugin = createPlugin({
-     id: 'raml-open-api',
-     routes: {
-       root: rootRouteRef,
+   import {
+    apiDocsConfigRef,
+    defaultDefinitionWidgets,
+   } from '@backstage/plugin-api-docs'
+
+   . . .
+   createApiFactory({
+     api: apiDocsConfigRef,
+     deps: {},
+     factory: () => {
+       const widgets = addRamlDefinitionWidget(defaultDefinitionWidgets());
+       return {
+         getApiDefinitionoWidget: ({ spec, { type }}: ApiEntity) =>
+           widgets.find(widget => widget.type === type),
+       };
      },
-   });
+   }),
+   . . .
    ```
 
-6. **Restart Your Backstage App**
+4. **Restart Your Backstage App**
 
    After making changes, restart your Backstage application to see the new plugin in action:
 
@@ -71,29 +71,19 @@ With this integration, Backstage users can seamlessly view and manage their APIs
 
 1. **Add RAML Files**
 
-   Place your RAML API definitions under a directory specified for API documentation within your Backstage app (e.g., `static/docs/api`).
+   Place your RAML API definitions under a directory specified for API documentation within your Backstage catalog (e.g., `static/docs/api`).
 
 2. **Navigate to API Docs**
 
-   Access the API documentation section in Backstage, and you should see an option or tab dedicated to RAML-based APIs.
+   Access the API documentation section in Backstage.
 
 3. **View Rendered OpenAPI Documentation**
 
-   The plugin will automatically convert the RAML definitions into OpenAPI format and render them using Backstage's built-in tools for a clean, interactive experience.
+   When an API entity is viewed the plugin will automatically convert the RAML definitions into OpenAPI format and render them using Backstage's built-in tools for a clean, interactive experience.
 
 ## Configuration
 
-The plugin leverages Backstage’s existing configuration settings for API documentation. No additional configuration is required unless you need to customize the conversion process or rendering options.
-
-If customization is needed, refer to the following optional configuration steps:
-
-1. **Custom Conversion Scripts**
-
-   Modify the conversion scripts located in `src/raml-to-openapi` to suit your specific RAML and OpenAPI version requirements.
-
-2. **Update Plugin Settings**
-
-   Adjust settings within `src/plugin.tsx` or related configuration files to change behavior such as API scanning paths, default rendering themes, etc.
+The plugin leverages Backstage’s existing default Api widget definitions for API documentation. No additional configuration is required.
 
 ## Contributing
 
