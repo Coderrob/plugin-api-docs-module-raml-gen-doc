@@ -1,5 +1,7 @@
 # Backstage.io Api-Docs Plugin: RAML to OpenAPI Renderer
 
+![Coverage Badge](badges/coverage.svg)
+
 ## Overview
 
 This is a plugin for [Backstage](https://backstage.io/) that extends the capabilities of the built-in API documentation feature by adding support for parsing and rendering [RAML](https://raml.org/) (RESTful API Modeling Language) definitions in [OpenAPI](https://www.openapis.org/) format.

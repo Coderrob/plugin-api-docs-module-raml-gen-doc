@@ -1,20 +1,34 @@
-import { Progress } from "@backstage/core-components";
+import { Progress, ErrorPanel } from "@backstage/core-components";
 import { useRamlToOpenApi } from "../hooks/useRamlToOpenApi";
+import React, { FC } from "react";
 
 export type RamlDefinitionWidgetProps = {
   definition: string;
   component: (definition: string) => React.ReactElement;
 };
 
-export default function RamlDefinitionWidget({
+/**
+ * A React component that renders a RAML API definition by converting it to OpenAPI and using the provided component.
+ * @param props - The props for the component.
+ * @param props.definition - The RAML definition string to be parsed and rendered.
+ * @param props.component - A function that takes an OpenAPI definition string and returns a React element for rendering.
+ * @returns A React element that displays the API definition or loading/error states.
+ */
+const RamlDefinitionWidget: FC<RamlDefinitionWidgetProps> = ({
   component,
   definition,
-}: Readonly<RamlDefinitionWidgetProps>): React.ReactElement {
-  const { data: apiDef, isLoading } = useRamlToOpenApi(definition);
+}) => {
+  const { data: apiDef, isLoading, error } = useRamlToOpenApi(definition);
 
   if (isLoading) {
     return <Progress />;
   }
 
+  if (error) {
+    return <ErrorPanel error={error} />;
+  }
+
   return component(apiDef);
-}
+};
+
+export default RamlDefinitionWidget;
