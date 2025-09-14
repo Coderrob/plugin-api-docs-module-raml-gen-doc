@@ -1,19 +1,6 @@
 import { ApiDefinitionWidget } from "@backstage/plugin-api-docs";
-import RamlDefinitionWidget from "./components/RamlDefinitionWidget";
-import {
-  OPENAPI_WIDGET_TYPE,
-  RAML_WIDGET_TITLE,
-  RAML_WIDGET_TYPE,
-} from "./constants";
-
-/**
- * Backstage Api Definition Widget array filter by definition type.
- * @param type the api definition widget type (e.g: openapi, raml)
- * @returns
- */
-function byType(type: string) {
-  return (widget: ApiDefinitionWidget) => widget.type === type;
-}
+import { OPENAPI_WIDGET_TYPE } from "./constants";
+import { byType, createRamlWidget } from "./utils/widget-utils";
 
 /**
  * Adds the RAML Api Definition Widget to the list
@@ -51,14 +38,5 @@ export function addRamlDefinitionWidget(
    * Add the RAML Api Definition widget using the
    * OpenApi widget to handle the parsed RAML.
    */
-  return widgets.concat({
-    type: RAML_WIDGET_TYPE,
-    title: RAML_WIDGET_TITLE,
-    component: (definition: string) => (
-      <RamlDefinitionWidget
-        component={openapiWidget?.component}
-        definition={definition}
-      />
-    ),
-  });
+  return widgets.concat(createRamlWidget(openapiWidget));
 }

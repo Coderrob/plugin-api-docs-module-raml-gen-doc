@@ -1,13 +1,23 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "jsx": "react-jsx",
-    "lib": ["DOM", "DOM.Iterable", "ScriptHost", "ES2022"],
+    "jsx": "react",
+    "lib": ["DOM", "DOM.Iterable", "ScriptHost", "ES2022", "ES6"],
     "outDir": "dist-types",
     "rootDir": ".",
     "target": "ES2022",
-    "useUnknownInCatchVariables": false
+    "useUnknownInCatchVariables": false,
+    "emitDeclarationOnly": false,
+    "noEmit": true,
+    "skipLibCheck": true
   },
-  "exclude": ["node_modules", "dist-types", "dist"],
+  "exclude": [
+    "node_modules",
+    "dist-types",
+    "dist",
+    "**/*.test.*",
+    "**/*.spec.*"
+  ],
   "extends": "@backstage/cli/config/tsconfig.json",
   "include": ["src/"]
 }

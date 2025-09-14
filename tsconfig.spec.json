@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "emitDeclarationOnly": false,
+    "noEmit": false,
+    "types": ["node", "jest", "webpack-env", "react"]
+  },
+  "include": ["src/**/*.test.*", "src/**/*.spec.*"],
+  "exclude": ["node_modules", "dist-types", "dist"]
+}
