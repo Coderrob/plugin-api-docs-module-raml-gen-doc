@@ -61,13 +61,15 @@ warn() {
 # Arguments:
 #   Metric pattern (e.g., "LF", "LH")
 # Outputs:
-#   Sum of all metric values
+#   Sum of all metric values (0 if no data found)
 #######################################
 extract_metric() {
   local pattern="$1"
-  grep -o "${pattern}:[0-9]*" "$COVERAGE_FILE" | \
+  local result
+  result=$(grep -o "${pattern}:[0-9]*" "$COVERAGE_FILE" | \
     cut -d: -f2 | \
-    awk '{sum+=$1} END {print sum}'
+    awk '{sum+=$1} END {print sum}')
+  echo "${result:-0}"
 }
 
 #######################################
@@ -78,17 +80,15 @@ extract_metric() {
 #   hit_count - Number of items covered
 #   found_count - Total number of items
 # Outputs:
-#   Percentage with 2 decimal places
-# Returns:
-#   1 if found_count is 0 (division by zero)
+#   Percentage with 2 decimal places, or "N/A" if division by zero
 #######################################
 calculate_percentage() {
   local hit_count="$1"
   local found_count="$2"
   
   if [ "$found_count" -eq 0 ]; then
-    echo "0"
-    return 1
+    echo "$NA_VALUE"
+    return 0
   fi
   
   echo "scale=2; ($hit_count / $found_count) * 100" | bc
