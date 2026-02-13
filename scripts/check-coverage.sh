@@ -79,10 +79,18 @@ extract_metric() {
 #   found_count - Total number of items
 # Outputs:
 #   Percentage with 2 decimal places
+# Returns:
+#   1 if found_count is 0 (division by zero)
 #######################################
 calculate_percentage() {
   local hit_count="$1"
   local found_count="$2"
+  
+  if [ "$found_count" -eq 0 ]; then
+    echo "0"
+    return 1
+  fi
+  
   echo "scale=2; ($hit_count / $found_count) * 100" | bc
 }
 
@@ -91,12 +99,19 @@ calculate_percentage() {
 # Globals:
 #   THRESHOLD
 # Arguments:
-#   percentage - Coverage percentage
+#   percentage - Coverage percentage (numeric or N/A)
 # Outputs:
 #   1 if meets threshold, 0 otherwise
 #######################################
 meets_threshold() {
   local percentage="$1"
+  
+  # Return true (1) if percentage is N/A (indicates skipped metric)
+  if [ "$percentage" = "$NA_VALUE" ]; then
+    echo "1"
+    return 0
+  fi
+  
   echo "$percentage >= $THRESHOLD" | bc
 }
 
