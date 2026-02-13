@@ -2,7 +2,7 @@ import { addRamlDefinitionWidget } from "./addRamlDefinitionWidget";
 import { ApiDefinitionWidget } from "@backstage/plugin-api-docs";
 import { OPENAPI_WIDGET_TYPE } from "./constants";
 import { createRamlWidget, byType } from "./utils/widget-utils";
-import React from "react";
+import { createElement } from "react";
 
 jest.mock("./utils/widget-utils", () => ({
   ...jest.requireActual("./utils/widget-utils"),
@@ -13,13 +13,13 @@ describe("addRamlDefinitionWidget", () => {
   const openApiWidget: ApiDefinitionWidget = {
     type: OPENAPI_WIDGET_TYPE,
     title: "OpenAPI",
-    component: () => React.createElement("div"),
+    component: () => createElement("div"),
   };
 
   const otherWidget: ApiDefinitionWidget = {
     type: "other",
     title: "Other",
-    component: () => React.createElement("div"),
+    component: () => createElement("div"),
   };
 
   beforeEach(() => {
@@ -45,7 +45,7 @@ describe("addRamlDefinitionWidget", () => {
     const ramlWidget: ApiDefinitionWidget = {
       type: "raml",
       title: "RAML",
-      component: () => React.createElement("div"),
+      component: () => createElement("div"),
     };
 
     (createRamlWidget as jest.Mock).mockReturnValue(ramlWidget);

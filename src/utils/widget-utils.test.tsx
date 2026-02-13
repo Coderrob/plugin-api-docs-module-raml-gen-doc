@@ -1,4 +1,3 @@
-import React from "react";
 import { byType, createRamlWidget } from "./widget-utils";
 import { RAML_WIDGET_TYPE, RAML_WIDGET_TITLE } from "../constants";
 import { ApiDefinitionWidget } from "@backstage/plugin-api-docs";

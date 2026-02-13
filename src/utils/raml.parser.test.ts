@@ -70,4 +70,28 @@ describe("RamlParser", () => {
       "Unsupported RAML version: 2.0"
     );
   });
+
+  it("should clear cache", async () => {
+    const definition = "#%RAML 1.0\ntitle: Test API";
+    const config: ParserConfig = { version: "1.0", outputFormat: "oas20" };
+    const mockOutput = '{"openapi": "3.0.0"}';
+
+    mockWebApiParser.raml10.parse.mockResolvedValue({});
+    mockWebApiParser.oas20.generateString.mockResolvedValue(mockOutput);
+
+    // First call - should parse
+    await parser.parse(definition, config);
+    expect(mockWebApiParser.raml10.parse).toHaveBeenCalledTimes(1);
+
+    // Second call - should use cache
+    await parser.parse(definition, config);
+    expect(mockWebApiParser.raml10.parse).toHaveBeenCalledTimes(1);
+
+    // Clear cache
+    parser.clearCache();
+
+    // Third call - should parse again after cache clear
+    await parser.parse(definition, config);
+    expect(mockWebApiParser.raml10.parse).toHaveBeenCalledTimes(2);
+  });
 });

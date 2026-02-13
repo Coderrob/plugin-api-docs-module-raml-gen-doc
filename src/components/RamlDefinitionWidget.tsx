@@ -1,10 +1,10 @@
 import { Progress, ErrorPanel } from "@backstage/core-components";
 import { useRamlToOpenApi } from "../hooks/useRamlToOpenApi";
-import React, { FC } from "react";
+import type { FC, ReactElement } from "react";
 
 export type RamlDefinitionWidgetProps = {
   definition: string;
-  component: (definition: string) => React.ReactElement;
+  component: (definition: string) => ReactElement;
 };
 
 /**

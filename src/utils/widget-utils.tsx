@@ -1,7 +1,6 @@
 import { ApiDefinitionWidget } from "@backstage/plugin-api-docs";
 import { RAML_WIDGET_TYPE, RAML_WIDGET_TITLE } from "../constants";
 import RamlDefinitionWidget from "../components/RamlDefinitionWidget";
-import React from "react";
 
 /**
  * Backstage Api Definition Widget array filter by definition type.
