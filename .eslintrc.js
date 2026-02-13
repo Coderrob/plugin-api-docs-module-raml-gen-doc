@@ -1,33 +1,11 @@
+const config = require('@backstage/cli/config/eslint-factory')(__dirname);
 
-const path = require('path');
-
+// Disable the problematic no-useless-constructor rule that has a bug with certain TypeScript versions
 module.exports = {
-  root: true,
-  plugins: ['@spotify', 'react', 'testing-library'],
-  ignorePatterns: ['.eslintrc.js', '.eslintrc.cjs'],
-  rules: {},
-  overrides: [
-    {
-      files: ['**/*.[jt]s?(x)'],
-      excludedFiles: '**/*.{test,spec}.[jt]s?(x)',
-      rules: {
-        'react/forbid-elements': [
-          1,
-          {
-            forbid: [
-              {
-                element: 'button',
-                message: 'use Material UI <Button> instead',
-              },
-              { element: 'p', message: 'use Material UI <Typography> instead' },
-              {
-                element: 'span',
-                message: 'use a Material UI <Typography> variant instead',
-              },
-            ],
-          },
-        ],
-      },
-    },
-  ],
+  ...config,
+  ignorePatterns: [...(config.ignorePatterns || []), 'scripts/**'],
+  rules: {
+    ...config.rules,
+    '@typescript-eslint/no-useless-constructor': 'off',
+  },
 };
